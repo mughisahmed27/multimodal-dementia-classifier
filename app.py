@@ -159,27 +159,27 @@ with center:
 # ----------------------------
 # Validation + Prediction
 # ----------------------------
-if predict_clicked:
+# if predict_clicked:
 
-    invalid_fields = []
+#     invalid_fields = []
 
-    field_values = {
-        "Age": age,
-        "Education Years": education,
-        "MMSE Score": mmse,
-        "MOCA Score": moca,
-        "Hippocampus Volume": hippocampus,
-        "Amygdala Volume": amygdala,
-        "Temporal Pole Volume": temporal_pole,
-        "Brainstem Volume": brainstem,
-        "Precentral Thickness": precentral,
-        "Superior Frontal Thickness": superior_frontal,
-        "Insula Thickness": insula,
-    }
+#     field_values = {
+#         "Age": age,
+#         "Education Years": education,
+#         "MMSE Score": mmse,
+#         "MOCA Score": moca,
+#         "Hippocampus Volume": hippocampus,
+#         "Amygdala Volume": amygdala,
+#         "Temporal Pole Volume": temporal_pole,
+#         "Brainstem Volume": brainstem,
+#         "Precentral Thickness": precentral,
+#         "Superior Frontal Thickness": superior_frontal,
+#         "Insula Thickness": insula,
+#     }
 
-    for field, value in field_values.items():
-        if value == 0:
-            invalid_fields.append(field)
+#     for field, value in field_values.items():
+#         if value == 0:
+#             invalid_fields.append(field)
 
     # if invalid_fields:
 
@@ -201,7 +201,7 @@ if predict_clicked:
     #         unsafe_allow_html=True
     #     )
 
-        st.stop()
+        # st.stop()
 
     # ----------------------------
     # Prepare Input Data
