@@ -181,25 +181,25 @@ if predict_clicked:
         if value == 0:
             invalid_fields.append(field)
 
-    if invalid_fields:
+    # if invalid_fields:
 
-        error_placeholder.markdown(
-            f"""
-            <div style="
-                background-color: #ffcccc;
-                padding: 15px;
-                border-radius: 8px;
-                border: 1px solid #ff4d4d;
-                color: #990000;
-                font-weight: bold;
-                text-align: center;
-            ">
-                ⚠ All fields must be completed before prediction.<br>
-                Missing: {", ".join(invalid_fields)}
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
+    #     error_placeholder.markdown(
+    #         f"""
+    #         <div style="
+    #             background-color: #ffcccc;
+    #             padding: 15px;
+    #             border-radius: 8px;
+    #             border: 1px solid #ff4d4d;
+    #             color: #990000;
+    #             font-weight: bold;
+    #             text-align: center;
+    #         ">
+    #             ⚠ All fields must be completed before prediction.<br>
+    #             Missing: {", ".join(invalid_fields)}
+    #         </div>
+    #         """,
+    #         unsafe_allow_html=True
+    #     )
 
         st.stop()
 
@@ -234,4 +234,4 @@ if predict_clicked:
     st.session_state.prediction = prediction
     st.session_state.probabilities = probabilities
 
-    st.switch_page("pages/2_diagnosis.py")
+    st.switch_page("pages/test.py")
