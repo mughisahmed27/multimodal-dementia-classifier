@@ -234,4 +234,4 @@ if predict_clicked:
     st.session_state.prediction = prediction
     st.session_state.probabilities = probabilities
 
-    st.switch_page("pages/2_Diagnosis.py")
+    st.switch_page("pages/2_diagnosis.py")
