@@ -155,11 +155,53 @@ left, center, right = st.columns([1, 2, 1])
 
 with center:
     predict_clicked = st.button("Predict Diagnosis")
-# ----------------------------
-# Prediction (Validation Disabled)
-# ----------------------------
 
+# ----------------------------
+# Validation + Prediction
+# ----------------------------
 if predict_clicked:
+
+    invalid_fields = []
+
+    field_values = {
+        "Age": age,
+        "Education Years": education,
+        "MMSE Score": mmse,
+        "MOCA Score": moca,
+        "Hippocampus Volume": hippocampus,
+        "Amygdala Volume": amygdala,
+        "Temporal Pole Volume": temporal_pole,
+        "Brainstem Volume": brainstem,
+        "Precentral Thickness": precentral,
+        "Superior Frontal Thickness": superior_frontal,
+        "Insula Thickness": insula,
+    }
+
+    for field, value in field_values.items():
+        if value == 0:
+            invalid_fields.append(field)
+
+    if invalid_fields:
+
+        error_placeholder.markdown(
+            f"""
+            <div style="
+                background-color: #ffcccc;
+                padding: 15px;
+                border-radius: 8px;
+                border: 1px solid #ff4d4d;
+                color: #990000;
+                font-weight: bold;
+                text-align: center;
+            ">
+                ⚠ All fields must be completed before prediction.<br>
+                Missing: {", ".join(invalid_fields)}
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+
+        st.stop()
 
     # ----------------------------
     # Prepare Input Data
@@ -192,83 +234,4 @@ if predict_clicked:
     st.session_state.prediction = prediction
     st.session_state.probabilities = probabilities
 
-    st.switch_page("pages/test.py")
-# ----------------------------
-# Validation + Prediction
-# ----------------------------
-# if predict_clicked:
-
-#     invalid_fields = []
-
-#     field_values = {
-#         "Age": age,
-#         "Education Years": education,
-#         "MMSE Score": mmse,
-#         "MOCA Score": moca,
-#         "Hippocampus Volume": hippocampus,
-#         "Amygdala Volume": amygdala,
-#         "Temporal Pole Volume": temporal_pole,
-#         "Brainstem Volume": brainstem,
-#         "Precentral Thickness": precentral,
-#         "Superior Frontal Thickness": superior_frontal,
-#         "Insula Thickness": insula,
-#     }
-
-#     for field, value in field_values.items():
-#         if value == 0:
-#             invalid_fields.append(field)
-
-    # if invalid_fields:
-
-    #     error_placeholder.markdown(
-    #         f"""
-    #         <div style="
-    #             background-color: #ffcccc;
-    #             padding: 15px;
-    #             border-radius: 8px;
-    #             border: 1px solid #ff4d4d;
-    #             color: #990000;
-    #             font-weight: bold;
-    #             text-align: center;
-    #         ">
-    #             ⚠ All fields must be completed before prediction.<br>
-    #             Missing: {", ".join(invalid_fields)}
-    #         </div>
-    #         """,
-    #         unsafe_allow_html=True
-    #     )
-
-        # st.stop()
-
-    # ----------------------------
-    # Prepare Input Data
-    # ----------------------------
-    # input_data = pd.DataFrame({
-    #     "MMSCORE": [mmse],
-    #     "MOCA": [moca],
-    #     "AGE": [age],
-    #     "EDUCATION_YEARS": [education],
-    #     "hippocampus_norm_vol": [hippocampus],
-    #     "amygdala_norm_vol": [amygdala],
-    #     "temporal_pole_norm_vol": [temporal_pole],
-    #     "brainstem_norm_vol": [brainstem],
-    #     "precentral_thick": [precentral],
-    #     "superior_frontal_thick": [superior_frontal],
-    #     "insula_thick": [insula],
-    #     "GENDER": [gender]
-    # })
-
-    # prediction = model.predict(input_data)[0]
-    # probabilities = model.predict_proba(input_data)[0]
-
-    # st.session_state.last_inputs = {
-    #     "MMSCORE": mmse,
-    #     "MOCA": moca,
-    #     "hippocampus_norm_vol": hippocampus,
-    #     "precentral_thick": precentral
-    # }
-
-    # st.session_state.prediction = prediction
-    # st.session_state.probabilities = probabilities
-
-    # st.switch_page("pages/test.py")
+    st.switch_page("pages/2_diagnosis.py")
