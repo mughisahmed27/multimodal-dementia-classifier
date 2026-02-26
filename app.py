@@ -94,6 +94,8 @@ with col2:
             **Normalised Volumes**
 
             Enter values as proportions of intracranial volume (ICV).
+            These are unitless values typically ranging between 
+            0.001 - 0.01 
             Do NOT enter raw mm³ values.
             """)
 
