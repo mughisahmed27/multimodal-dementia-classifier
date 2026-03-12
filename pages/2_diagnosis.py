@@ -75,18 +75,18 @@ unsafe_allow_html=True
 diagnosis_explanations = {
 
     1: """
-The model did not detect patterns associated with cognitive impairment in the provided data.
-Cognitive test scores and neuroimaging indicators appear consistent with normal cognitive function.
+**The model did not detect patterns associated with cognitive impairment in the provided data.
+Cognitive test scores and neuroimaging indicators appear consistent with normal cognitive function.**
 """,
 
     2: """
-The model identified patterns that may indicate mild cognitive impairment.
-MCI represents an intermediate stage between normal cognitive ageing and dementia, where some cognitive decline is present but daily functioning is largely preserved.
+**The model identified patterns that may indicate mild cognitive impairment.
+MCI represents an intermediate stage between normal cognitive ageing and dementia, where some cognitive decline is present but daily functioning is largely preserved.**
 """,
 
     3: """
-The model detected patterns consistent with significant cognitive decline.
-This may include lower cognitive test scores and neuroimaging markers associated with neurodegeneration.
+**The model detected patterns consistent with significant cognitive decline.
+This may include lower cognitive test scores and neuroimaging markers associated with neurodegeneration.**
 """
 }
 
@@ -123,7 +123,7 @@ This section shows the **model's confidence** in each possible diagnosis.
 
 For example, if the model reports **70% Dementia**, this means the model is **70% confident that Dementia is the most likely classification**, based on the input data.
 
-It **does not mean the patient has a 70% chance of having dementia**.
+**It does not mean the patient has a 70% chance of having dementia.**
 """)
 
     max_prob = max(percent_probs)
@@ -211,11 +211,11 @@ st.markdown("---")
 st.markdown("### Clinical Disclaimer")
 
 st.markdown("""
-This tool is intended **for research and educational purposes only**.
+This tool is intended for research and educational purposes only.
 
-It does **not constitute a medical diagnosis** and should not be used as a substitute for professional clinical evaluation.
+It does not constitute a medical diagnosis and should not be used as a substitute for professional clinical evaluation.
 
-Clinical decisions must be made by **qualified healthcare professionals** based on comprehensive neurological and cognitive assessment.
+Clinical decisions must be made by qualified healthcare professionals based on comprehensive neurological and cognitive assessment.
 """)
 
 # ---------------------------------
