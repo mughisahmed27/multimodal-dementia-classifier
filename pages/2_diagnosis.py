@@ -2,17 +2,20 @@ import streamlit as st
 import pandas as pd
 import plotly.graph_objects as go
 
-st.markdown(
-    """
-    <style>
-    .stApp {
-        background-color: #d9f2f2;
-    }
-    </style>
-    """,
-    unsafe_allow_html=True
-)
 st.set_page_config(page_title="Diagnosis Summary", layout="wide")
+
+st.markdown("""
+<style>
+.stApp {
+    background-color:#d9f2f2;
+}
+
+p, li {
+    font-size:18px;
+}
+
+</style>
+""", unsafe_allow_html=True)
 
 # ---------------------------------
 # Ensure Prediction Exists
@@ -43,62 +46,107 @@ st.markdown("<br>", unsafe_allow_html=True)
 # Diagnosis Colour Box
 # ---------------------------------
 color_map = {
-    1: "#2ecc71",   # green
-    2: "#f1c40f",   # yellow
-    3: "#e74c3c"    # red
+    1: "#2ecc71",
+    2: "#f1c40f",
+    3: "#e74c3c"
 }
 
-box_color = color_map[prediction]
+st.markdown(
+f"""
+<div style="
+background-color:{color_map[prediction]};
+padding:40px;
+border-radius:12px;
+text-align:center;
+color:white;
+font-size:36px;
+font-weight:bold;">
+{diagnosis_text}
+</div>
+""",
+unsafe_allow_html=True
+)
+
+
+
+# ---------------------------------
+# Diagnosis explanation
+# ---------------------------------
+diagnosis_explanations = {
+
+    1: """
+The model did not detect patterns associated with cognitive impairment in the provided data.
+Cognitive test scores and neuroimaging indicators appear consistent with normal cognitive function.
+""",
+
+    2: """
+The model identified patterns that may indicate mild cognitive impairment.
+MCI represents an intermediate stage between normal cognitive ageing and dementia, where some cognitive decline is present but daily functioning is largely preserved.
+""",
+
+    3: """
+The model detected patterns consistent with significant cognitive decline.
+This may include lower cognitive test scores and neuroimaging markers associated with neurodegeneration.
+"""
+}
 
 st.markdown(
-    f"""
-    <div style="
-        background-color: {box_color};
-        padding: 40px;
-        border-radius: 12px;
-        text-align: center;
-        color: white;
-        font-size: 32px;
-        font-weight: bold;
-    ">
-        {diagnosis_text}
-    </div>
-    """,
-    unsafe_allow_html=True
+f"""
+<div style="
+text-align:center;
+font-size:18px;
+max-width:900px;
+margin:auto;
+margin-top:10px;">
+{diagnosis_explanations[prediction]}
+</div>
+""",
+unsafe_allow_html=True
 )
 
 st.markdown("<br><br>", unsafe_allow_html=True)
 
-# ---------------------------------
-# Three Column Layout
-# ---------------------------------
-col1, col2, col3 = st.columns(3)
-
 labels = ["Cognitively Normal", "MCI", "Dementia"]
 percent_probs = [round(p * 100, 1) for p in probabilities]
 
-# =================================
-# COLUMN 1 — Probability Breakdown
-# =================================
+col1, col2, col3 = st.columns(3)
+
+# ---------------------------------
+# Probability Breakdown
+# ---------------------------------
 with col1:
+
     st.subheader("Probability Breakdown")
+
+    st.markdown("""
+This section shows the **model's confidence** in each possible diagnosis.
+
+For example, if the model reports **70% Dementia**, this means the model is **70% confident that Dementia is the most likely classification**, based on the input data.
+
+It **does not mean the patient has a 70% chance of having dementia**.
+""")
 
     max_prob = max(percent_probs)
 
     for label, prob in zip(labels, percent_probs):
+
         if prob == max_prob:
             st.markdown(f"**{label}: {prob}%**")
         else:
             st.markdown(f"{label}: {prob}%")
 
-
-# =================================
-# COLUMN 2 — Custom Bar Chart
-# =================================
+# ---------------------------------
+# Probability Chart
+# ---------------------------------
 with col2:
+
     st.subheader("Probability Distribution")
 
-    colors = ["#2ecc71", "#f1c40f", "#e74c3c"]  # green, yellow, red
+    st.markdown("""
+This chart visualises the probability assigned by the model to each cognitive stage.
+""")
+
+    colors = ["#2ecc71", "#f1c40f", "#e74c3c"]
 
     fig = go.Figure()
 
@@ -108,60 +156,71 @@ with col2:
         text=[f"{p}%" for p in percent_probs],
         textposition="outside",
         marker_color=colors,
-        width=0.4 
+        width=0.4
     ))
 
     fig.update_layout(
-        yaxis=dict(title="Probability (%)", range=[0, 100]),
-        xaxis=dict(title=""),
-        height=400,
-        margin=dict(l=20, r=20, t=20, b=20)
+        yaxis=dict(title="Model Probability (%)", range=[0, 100]),
+        xaxis=dict(title="Cognitive Stage"),
+        height=400
     )
 
     st.plotly_chart(fig, use_container_width=True)
 
-# =================================
-# COLUMN 3 — Key Indicators
-# =================================
+# ---------------------------------
+# Key Indicators
+# ---------------------------------
 with col3:
+
     st.subheader("Key Indicators")
 
-    indicators = []
-
     if inputs:
+
         if inputs["MMSCORE"] < 24:
-            indicators.append("Low MMSE score (<24)")
+            st.markdown("""
+**Low MMSE score (<24)**  
+A Mini Mental State Examination score below 24 may indicate significant cognitive impairment and is commonly used as a clinical screening threshold for dementia.
+""")
 
         if inputs["MOCA"] < 26:
-            indicators.append("Low MOCA score (<26)")
+            st.markdown("""
+**Low MOCA score (<26)**  
+A Montreal Cognitive Assessment score below 26 suggests potential mild cognitive impairment or early dementia.
+""")
 
         if inputs["hippocampus_norm_vol"] < 0.003:
-            indicators.append("Reduced hippocampal volume")
+            st.markdown("""
+**Reduced hippocampal volume**  
+The hippocampus plays a key role in memory formation. Reduced volume is a well-established biomarker associated with Alzheimer's disease and neurodegeneration.
+""")
 
         if inputs["precentral_thick"] < 2.3:
-            indicators.append("Reduced cortical thickness")
+            st.markdown("""
+**Reduced cortical thickness**  
+Cortical thinning can occur as a result of neuronal loss and is frequently observed in neurodegenerative disorders such as Alzheimer's disease.
+""")
 
-    if indicators:
-        for item in indicators:
-            st.markdown(f"- {item}")
     else:
         st.markdown("No significant abnormal indicators detected.")
-
 
 # ---------------------------------
 # Disclaimer
 # ---------------------------------
 st.markdown("---")
-st.markdown("### Clinical Disclaimer")
-st.markdown("""
-This tool is intended for research and educational purposes only.  
-It does not constitute a medical diagnosis.  
 
-Clinical decisions must be made by qualified healthcare professionals 
-based on comprehensive clinical assessment.
+st.markdown("### Clinical Disclaimer")
+
+st.markdown("""
+This tool is intended **for research and educational purposes only**.
+
+It does **not constitute a medical diagnosis** and should not be used as a substitute for professional clinical evaluation.
+
+Clinical decisions must be made by **qualified healthcare professionals** based on comprehensive neurological and cognitive assessment.
 """)
 
-st.markdown("<br>", unsafe_allow_html=True)
+# ---------------------------------
+# Return Button
+# ---------------------------------
 
 st.markdown(
     """
