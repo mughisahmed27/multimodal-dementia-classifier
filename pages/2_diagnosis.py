@@ -75,7 +75,7 @@ Cognitive test scores and neuroimaging indicators appear consistent with normal 
 """,
 
     2: """
-**The model identified patterns that may indicate mild cognitive impairment.
+**The model identified patterns that may indicate mild cognitive impairment (MCI).
 MCI is an intermediate stage between normal cognitive ageing and dementia, where some cognitive decline is present but daily functioning is largely preserved.**
 """,
 
@@ -108,16 +108,13 @@ col1, col2, col3 = st.columns(3)
 
 
 # Probability Breakdown
-# ---------------------------------
 with col1:
 
     st.subheader("Probability Breakdown")
 
     st.markdown("""
 This section shows the **model's confidence** in each possible diagnosis.
-
 For example, if the model reports **70% Dementia**, this means the model is **70% confident that Dementia is the most likely classification**, based on the input data.
-
 **It does not mean the patient has a 70% chance of having dementia.**
 """)
 
@@ -203,9 +200,7 @@ st.markdown("### Clinical Disclaimer")
 
 st.markdown("""
 This tool is intended for research and educational purposes only.
-
 It does not constitute a medical diagnosis and should not be used as a substitute for professional clinical evaluation.
-
 Clinical decisions must be made by qualified healthcare professionals based on comprehensive neurological and cognitive assessment.
 """)
 
