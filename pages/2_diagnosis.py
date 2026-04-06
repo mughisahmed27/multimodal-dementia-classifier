@@ -17,11 +17,11 @@ p, li {
 </style>
 """, unsafe_allow_html=True)
 
-# ---------------------------------
-# Ensure Prediction Exists
-# ---------------------------------
+
+#ensure prediction exists
+
 if "prediction" not in st.session_state:
-    st.warning("No prediction available. Please return to the main page.")
+    st.warning("No prediction available. Please return to the main page and enter valid data.")
     st.stop()
 
 prediction = st.session_state.prediction
@@ -36,15 +36,12 @@ diagnosis_map = {
 
 diagnosis_text = diagnosis_map[prediction]
 
-# ---------------------------------
-# Centered Title
-# ---------------------------------
+
 st.markdown("<h1 style='text-align:center;'>Diagnosis Summary</h1>", unsafe_allow_html=True)
 st.markdown("<br>", unsafe_allow_html=True)
 
-# ---------------------------------
-# Diagnosis Colour Box
-# ---------------------------------
+# Diagnosis colour box
+
 color_map = {
     1: "#2ecc71",
     2: "#f1c40f",
@@ -68,10 +65,8 @@ unsafe_allow_html=True
 )
 
 
-
-# ---------------------------------
 # Diagnosis explanation
-# ---------------------------------
+
 diagnosis_explanations = {
 
     1: """
@@ -81,12 +76,12 @@ Cognitive test scores and neuroimaging indicators appear consistent with normal 
 
     2: """
 **The model identified patterns that may indicate mild cognitive impairment.
-MCI represents an intermediate stage between normal cognitive ageing and dementia, where some cognitive decline is present but daily functioning is largely preserved.**
+MCI is an intermediate stage between normal cognitive ageing and dementia, where some cognitive decline is present but daily functioning is largely preserved.**
 """,
 
     3: """
 **The model detected patterns consistent with significant cognitive decline.
-This may include lower cognitive test scores and neuroimaging markers associated with neurodegeneration.**
+This may include lower cognitive test scores and neuroimaging markers associated with dementia.**
 """
 }
 
@@ -111,7 +106,7 @@ percent_probs = [round(p * 100, 1) for p in probabilities]
 
 col1, col2, col3 = st.columns(3)
 
-# ---------------------------------
+
 # Probability Breakdown
 # ---------------------------------
 with col1:
@@ -135,9 +130,7 @@ For example, if the model reports **70% Dementia**, this means the model is **70
         else:
             st.markdown(f"{label}: {prob}%")
 
-# ---------------------------------
 # Probability Chart
-# ---------------------------------
 with col2:
 
     st.subheader("Probability Distribution")
@@ -167,9 +160,9 @@ This chart visualises the probability assigned by the model to each cognitive st
 
     st.plotly_chart(fig, use_container_width=True)
 
-# ---------------------------------
-# Key Indicators
-# ---------------------------------
+
+# Key indicators
+
 with col3:
 
     st.subheader("Key Indicators")
@@ -191,7 +184,7 @@ A Montreal Cognitive Assessment score below 26 suggests potential mild cognitive
         if inputs["hippocampus_norm_vol"] < 0.003:
             st.markdown("""
 **Reduced hippocampal volume**  
-The hippocampus plays a key role in memory formation. Reduced volume is a well-established biomarker associated with Alzheimer's disease and neurodegeneration.
+The hippocampus plays a key role in memory formation. Reduced volume is a well established biomarker associated with Alzheimer's disease and neurodegeneration.
 """)
 
         if inputs["precentral_thick"] < 2.3:
@@ -203,9 +196,7 @@ Cortical thinning can occur as a result of neuronal loss and is frequently obser
     else:
         st.markdown("No significant abnormal indicators detected.")
 
-# ---------------------------------
-# Disclaimer
-# ---------------------------------
+#Disclaimer
 st.markdown("---")
 
 st.markdown("### Clinical Disclaimer")
@@ -218,9 +209,7 @@ It does not constitute a medical diagnosis and should not be used as a substitut
 Clinical decisions must be made by qualified healthcare professionals based on comprehensive neurological and cognitive assessment.
 """)
 
-# ---------------------------------
-# Return Button
-# ---------------------------------
+# Return button
 
 st.markdown(
     """

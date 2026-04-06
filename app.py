@@ -4,9 +4,9 @@ import joblib
 
 st.set_page_config(page_title="Multimodal ADNI Classifier", layout="wide")
 
-# ----------------------------
-# Styling
-# ----------------------------
+
+# css styling
+
 st.markdown("""
 <style>
 
@@ -14,28 +14,28 @@ st.markdown("""
     background-color: #d9f2f2;
 }
 
-/* Increase ALL widget label text */
+
 div[data-testid="stMarkdownContainer"] p {
     font-size: 18px !important;
     font-weight: 500 !important;
 }
 
-/* Input numbers */
+
 input {
     font-size: 18px !important;
 }
 
-/* Dropdown */
+
 div[data-baseweb="select"] {
     font-size: 18px !important;
 }
 
-/* Section headers */
+
 h3 {
     font-size: 30px !important;
 }
 
-/* Section descriptions */
+
 .section-desc {
     font-size: 15px;
     color: #444444;
@@ -46,14 +46,13 @@ h3 {
 </style>
 """, unsafe_allow_html=True)
 
-# ----------------------------
-# Load Model
-# ----------------------------
+
+#load ML random forest model
+
 model = joblib.load("multimodal_random_forest_pipeline.pkl")
 
-# ----------------------------
 # Title
-# ----------------------------
+
 st.title("Multimodal Alzheimer's Disease Classifier")
 st.markdown("Enter patient data below.")
 
@@ -61,9 +60,8 @@ error_placeholder = st.empty()
 
 col1, col2, col3 = st.columns(3)
 
-# ----------------------------
-# Demographics + Cognition
-# ----------------------------
+# Demographics + Cognitive scores
+
 with col1:
 
     st.subheader("Demographics")
@@ -92,7 +90,7 @@ to influence cognitive performance and dementia risk.
 
     st.markdown("""
 <div class="section-desc">
-Enter the patient's cognitive screening scores.  
+Enter the patient's cognitive scores.  
 MMSE and MoCA are widely used clinical assessments that evaluate memory,
 attention, language ability, and other cognitive functions.
 </div>
@@ -103,9 +101,8 @@ attention, language ability, and other cognitive functions.
     moca = st.number_input("MOCA Score (0–30)", min_value=0, max_value=30, value=0)
 
 
-# ----------------------------
 # MRI Volumes
-# ----------------------------
+
 with col2:
 
     st.subheader("MRI Normalised Volumes")
@@ -115,7 +112,7 @@ with col2:
 Enter the normalised brain structure volumes derived from MRI analysis.
 These values represent the size of each brain structure relative to total
 intracranial volume (ICV). Typical values range between <b>0.001 – 0.01</b>.
-Do <b>not</b> enter raw mm³ measurements.
+Do <b>not</b> enter raw mm3 measurements.
 </div>
 """, unsafe_allow_html=True)
 
@@ -124,10 +121,8 @@ Do <b>not</b> enter raw mm³ measurements.
     temporal_pole = st.number_input("Temporal Pole", value=0.0, step=0.000001, format="%.10f")
     brainstem = st.number_input("Brainstem", value=0.0, step=0.000001, format="%.10f")
 
-
-# ----------------------------
 # Cortical Thickness
-# ----------------------------
+
 with col3:
 
     st.subheader("Cortical Thickness")
@@ -146,9 +141,8 @@ atrophy associated with neurodegenerative conditions.
     insula = st.number_input("Insula (mm)", value=0.0, step=0.0001, format="%.4f")
 
 
-# ----------------------------
-# Button Styling
-# ----------------------------
+#button styling
+
 st.markdown(
     """
     <style>
@@ -178,9 +172,7 @@ left, center, right = st.columns([1, 2, 1])
 with center:
     predict_clicked = st.button("Predict Diagnosis")
 
-# ----------------------------
-# Prediction
-# ----------------------------
+# diagnosis prediction
 if predict_clicked:
 
     input_data = pd.DataFrame({
